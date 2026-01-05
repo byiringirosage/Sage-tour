@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react';
 interface NavbarProps {
   onNavigate: (page: string) => void;
   currentPage: string;
+  isAuthenticated?: boolean;
+  onLogout?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage }) => {
+const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, isAuthenticated, onLogout }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -23,14 +25,13 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage }) => {
     { name: 'Destinations', id: 'destinations' },
     { name: 'Tours', id: 'tours' },
     { name: 'Guides', id: 'guides' },
-    { name: 'About', id: 'about' },
+    { name: 'Admin', id: 'admin' },
     { name: 'Contact', id: 'contact' },
   ];
 
   const handleLinkClick = (id: string) => {
     onNavigate(id);
     setIsMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const isTransparent = !isScrolled && currentPage === 'home';
@@ -54,17 +55,27 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage }) => {
             <button 
               key={link.id}
               onClick={() => handleLinkClick(link.id)}
-              className={`hover:text-emerald-500 transition-colors ${currentPage === link.id ? 'text-emerald-500' : ''}`}
+              className={`hover:text-emerald-500 transition-colors ${currentPage === link.id ? 'text-emerald-500 font-bold' : ''}`}
             >
               {link.name}
             </button>
           ))}
-          <button 
-            onClick={() => handleLinkClick('login')}
-            className="bg-emerald-600 text-white px-6 py-2 rounded-full hover:bg-emerald-700 transition-all transform hover:scale-105 shadow-md"
-          >
-            Login
-          </button>
+          
+          {isAuthenticated ? (
+            <button 
+              onClick={onLogout}
+              className="bg-slate-800 text-white px-6 py-2 rounded-full hover:bg-slate-900 transition-all transform hover:scale-105 shadow-md flex items-center gap-2"
+            >
+              <span className="text-xs">👋</span> Logout
+            </button>
+          ) : (
+            <button 
+              onClick={() => handleLinkClick('login')}
+              className="bg-emerald-600 text-white px-6 py-2 rounded-full hover:bg-emerald-700 transition-all transform hover:scale-105 shadow-md"
+            >
+              Login
+            </button>
+          )}
         </div>
 
         {/* Mobile Toggle */}
@@ -91,12 +102,21 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage }) => {
                 {link.name}
               </button>
             ))}
-            <button 
-              onClick={() => handleLinkClick('login')}
-              className="bg-emerald-600 text-white px-6 py-2 rounded-full mt-4"
-            >
-              Login
-            </button>
+            {isAuthenticated ? (
+              <button 
+                onClick={onLogout}
+                className="bg-slate-800 text-white px-6 py-2 rounded-full mt-4"
+              >
+                Logout
+              </button>
+            ) : (
+              <button 
+                onClick={() => handleLinkClick('login')}
+                className="bg-emerald-600 text-white px-6 py-2 rounded-full mt-4"
+              >
+                Login
+              </button>
+            )}
           </div>
         </div>
       )}

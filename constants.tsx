@@ -1,5 +1,5 @@
 
-import { Destination, Tour, Testimonial } from './types';
+import { Destination, Tour, Testimonial, Booking, GuideApplication } from './types';
 
 export const POPULAR_DESTINATIONS: Destination[] = [
   { 
@@ -9,6 +9,8 @@ export const POPULAR_DESTINATIONS: Destination[] = [
     tourCount: 15, 
     lat: -1.4741, 
     lng: 29.4912,
+    /* Added missing shortDescription for Volcanoes National Park */
+    shortDescription: 'Home to endangered mountain gorillas and Virunga volcanoes.',
     description: 'Home to the endangered mountain gorillas and five of the eight volcanoes in the Virunga Mountains. This park is the heart of Rwanda\'s wildlife conservation efforts and offers the most intimate primate encounters on Earth.'
   },
   { 
@@ -18,6 +20,8 @@ export const POPULAR_DESTINATIONS: Destination[] = [
     tourCount: 12, 
     lat: -2.4841, 
     lng: 29.2312,
+    /* Added missing shortDescription for Nyungwe National Park */
+    shortDescription: 'Ancient rainforest with rich biodiversity and chimpanzees.',
     description: 'One of the oldest rainforests in Africa, Nyungwe is rich in biodiversity and spectacularly beautiful. The mountainous region is teaming with wildlife, including a small population of chimpanzees as well as 12 other species of primate.'
   },
   { 
@@ -27,6 +31,8 @@ export const POPULAR_DESTINATIONS: Destination[] = [
     tourCount: 8, 
     lat: -1.8841, 
     lng: 30.7012,
+    /* Added missing shortDescription for Akagera National Park */
+    shortDescription: 'Safari destination home to the Big Five.',
     description: 'A stunning safari destination in eastern Rwanda, Akagera is home to the Big Five (lion, leopard, elephant, rhino, and buffalo). Its landscape of savannah, mountains, and wetlands is a dramatic contrast to the rest of the country.'
   },
   { 
@@ -36,6 +42,8 @@ export const POPULAR_DESTINATIONS: Destination[] = [
     tourCount: 10, 
     lat: -1.6841, 
     lng: 29.3512,
+    /* Added missing shortDescription for Lake Kivu */
+    shortDescription: 'Stunning inland sea with tranquil shores.',
     description: 'Part of Africa\'s Great Rift Valley, Lake Kivu is a stunning inland sea enclosed by steep, green terraced hills. It offers tranquil shores, emerald islands, and vibrant lakeside towns like Rubavu and Karongi.'
   },
   { 
@@ -45,6 +53,8 @@ export const POPULAR_DESTINATIONS: Destination[] = [
     tourCount: 20, 
     lat: -1.9441, 
     lng: 30.0619,
+    /* Added missing shortDescription for Kigali City */
+    shortDescription: 'Vibrant, clean, and safe capital city of Rwanda.',
     description: 'Clean, safe, and sophisticated, Kigali is the vibrant heart of Rwanda. From its tragic past commemorated at the Genocide Memorial to its promising future seen in the booming tech scene and local art galleries.'
   },
   { 
@@ -54,6 +64,8 @@ export const POPULAR_DESTINATIONS: Destination[] = [
     tourCount: 5, 
     lat: -1.5041, 
     lng: 29.6312,
+    /* Added missing shortDescription for Musanze Caves */
+    shortDescription: 'Underground volcanic caves with deep geological history.',
     description: 'Formed from centuries of volcanic activity, these caves offer a unique underground perspective of Rwanda. With professional guides and paved paths, it\'s an accessible adventure into the geological history of the region.'
   },
 ];
@@ -102,7 +114,7 @@ export const FEATURED_TOURS: Tour[] = [
       {
         day: 1,
         title: 'Tea Plantations & Forest Edge',
-        description: 'Journey to the southwest and witness the emerald tea estates bordering the rainforest.',
+        description: 'Tea plantations and witnessing the emerald tea estates bordering the rainforest.',
         activities: ['Transfer to Nyungwe', 'Tea Plantation experience', 'Canopy walk briefing', 'Nocturnal forest walk (optional)']
       },
       {
@@ -197,5 +209,40 @@ export const TESTIMONIALS: Testimonial[] = [
     role: 'Wildlife Photographer',
     content: 'Akagera is a hidden gem. Caught amazing shots of lions and rhinos. The guides know exactly where to go for the best light.',
     avatar: 'https://i.pravatar.cc/150?u=robert'
+  }
+];
+
+export const INITIAL_BOOKINGS: Booking[] = [
+  {
+    id: 'B-1001',
+    customerName: 'Sarah Jenkins',
+    tourTitle: 'Volcanoes Majesty: 3-Day Gorilla Quest',
+    date: '2024-05-15',
+    travelers: 2,
+    totalPrice: 3700,
+    status: 'Confirmed',
+    requestedAt: '2024-03-10'
+  },
+  {
+    id: 'B-1002',
+    customerName: 'Michael Chen',
+    tourTitle: 'Akagera Safari: 2-Day Big Five Expedition',
+    date: '2024-06-02',
+    travelers: 4,
+    totalPrice: 1152,
+    status: 'Pending',
+    requestedAt: '2024-04-12'
+  }
+];
+
+export const INITIAL_GUIDE_APPLICATIONS: GuideApplication[] = [
+  {
+    id: 'APP-001',
+    firstName: 'Fabrice',
+    lastName: 'Mugisha',
+    specialty: 'Nyungwe Primates',
+    experience: 'Guided for 5 years in local cooperatives.',
+    status: 'Pending',
+    appliedAt: '2024-04-15'
   }
 ];
