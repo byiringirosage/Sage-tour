@@ -1,7 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onNavigate: (page: string) => void;
+  currentPage: string;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -13,28 +18,51 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const navLinks = [
+    { name: 'Home', id: 'home' },
+    { name: 'Destinations', id: 'destinations' },
+    { name: 'Tours', id: 'tours' },
+    { name: 'Guides', id: 'guides' },
+    { name: 'About', id: 'about' },
+    { name: 'Contact', id: 'contact' },
+  ];
+
+  const handleLinkClick = (id: string) => {
+    onNavigate(id);
+    setIsMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const isTransparent = !isScrolled && currentPage === 'home';
+
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isTransparent ? 'bg-transparent py-5' : 'bg-white shadow-md py-3'}`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+        <button onClick={() => handleLinkClick('home')} className="flex items-center space-x-2 group">
+          <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center transition-transform group-hover:rotate-12">
              <span className="text-white font-bold text-xl">S</span>
           </div>
-          <span className={`text-2xl font-bold ${isScrolled ? 'text-slate-800' : 'text-white'}`}>
-            Sage Tour
+          <span className={`text-2xl font-bold ${isTransparent ? 'text-white' : 'text-slate-800'}`}>
+            Sage Tour Rwanda
           </span>
-        </div>
+        </button>
 
         {/* Desktop Links */}
-        <div className={`hidden md:flex items-center space-x-8 font-medium ${isScrolled ? 'text-slate-600' : 'text-white'}`}>
-          <a href="#home" className="hover:text-emerald-500 transition-colors">Home</a>
-          <a href="#destinations" className="hover:text-emerald-500 transition-colors">Destinations</a>
-          <a href="#tours" className="hover:text-emerald-500 transition-colors">Tours</a>
-          <a href="#guides" className="hover:text-emerald-500 transition-colors">Guides</a>
-          <a href="#about" className="hover:text-emerald-500 transition-colors">About</a>
-          <a href="#contact" className="hover:text-emerald-500 transition-colors">Contact</a>
-          <button className="bg-emerald-600 text-white px-6 py-2 rounded-full hover:bg-emerald-700 transition-all transform hover:scale-105">
+        <div className={`hidden md:flex items-center space-x-8 font-medium ${isTransparent ? 'text-white' : 'text-slate-600'}`}>
+          {navLinks.map((link) => (
+            <button 
+              key={link.id}
+              onClick={() => handleLinkClick(link.id)}
+              className={`hover:text-emerald-500 transition-colors ${currentPage === link.id ? 'text-emerald-500' : ''}`}
+            >
+              {link.name}
+            </button>
+          ))}
+          <button 
+            onClick={() => handleLinkClick('login')}
+            className="bg-emerald-600 text-white px-6 py-2 rounded-full hover:bg-emerald-700 transition-all transform hover:scale-105 shadow-md"
+          >
             Login
           </button>
         </div>
@@ -44,7 +72,7 @@ const Navbar: React.FC = () => {
           className="md:hidden p-2 text-2xl focus:outline-none"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          <span className={isScrolled ? 'text-slate-800' : 'text-white'}>
+          <span className={isTransparent ? 'text-white' : 'text-slate-800'}>
             {isMobileMenuOpen ? '✕' : '☰'}
           </span>
         </button>
@@ -54,13 +82,21 @@ const Navbar: React.FC = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-xl py-6 px-4 animate-in slide-in-from-top duration-300">
           <div className="flex flex-col space-y-4 text-slate-700 font-medium text-center">
-            <a href="#home" onClick={() => setIsMobileMenuOpen(false)}>Home</a>
-            <a href="#destinations" onClick={() => setIsMobileMenuOpen(false)}>Destinations</a>
-            <a href="#tours" onClick={() => setIsMobileMenuOpen(false)}>Tours</a>
-            <a href="#guides" onClick={() => setIsMobileMenuOpen(false)}>Guides</a>
-            <a href="#about" onClick={() => setIsMobileMenuOpen(false)}>About</a>
-            <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</a>
-            <button className="bg-emerald-600 text-white px-6 py-2 rounded-full mt-4">Login</button>
+            {navLinks.map((link) => (
+              <button 
+                key={link.id}
+                onClick={() => handleLinkClick(link.id)}
+                className={`py-2 ${currentPage === link.id ? 'text-emerald-600 font-bold' : ''}`}
+              >
+                {link.name}
+              </button>
+            ))}
+            <button 
+              onClick={() => handleLinkClick('login')}
+              className="bg-emerald-600 text-white px-6 py-2 rounded-full mt-4"
+            >
+              Login
+            </button>
           </div>
         </div>
       )}

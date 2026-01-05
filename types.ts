@@ -1,9 +1,9 @@
 
-export interface Destination {
-  id: string;
-  name: string;
-  image: string;
-  tourCount: number;
+export interface DayPlan {
+  day: number;
+  title: string;
+  description: string;
+  activities: string[];
 }
 
 export interface Tour {
@@ -15,6 +15,17 @@ export interface Tour {
   rating: number;
   reviews: number;
   location: string;
+  itinerary: DayPlan[];
+}
+
+export interface Destination {
+  id: string;
+  name: string;
+  image: string;
+  tourCount: number;
+  lat: number;
+  lng: number;
+  description: string;
 }
 
 export interface Testimonial {

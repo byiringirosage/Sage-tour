@@ -2,28 +2,42 @@
 import React from 'react';
 import { POPULAR_DESTINATIONS, FEATURED_TOURS, TESTIMONIALS } from '../constants';
 
-const Home: React.FC = () => {
+interface HomeProps {
+  onNavigate: (page: string) => void;
+  onViewTour: (id: string) => void;
+  onViewDestination: (id: string) => void;
+}
+
+const Home: React.FC<HomeProps> = ({ onNavigate, onViewTour, onViewDestination }) => {
   return (
     <div id="home">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center hero-gradient">
+      <section className="relative h-screen flex items-center justify-center hero-gradient" style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1516466723877-e4ec1d736c8a?auto=format&fit=crop&q=80&w=2000')` }}>
         <div className="container mx-auto px-4 text-center text-white space-y-8 max-w-4xl">
           <h1 className="text-5xl md:text-7xl font-bold leading-tight animate-in fade-in slide-in-from-bottom duration-1000">
-            Discover the world with Sage Tour
+            Visit Rwanda: The Land of a Thousand Hills
           </h1>
           <p className="text-lg md:text-xl text-slate-200 animate-in fade-in slide-in-from-bottom duration-1000 delay-200">
-            Explore trusted tours guided by local experts. Unforgettable journeys, authentic experiences, and seamless bookings at your fingertips.
+            Experience world-class ecotourism, from the misty peaks of Volcanoes National Park to the serene shores of Lake Kivu. Your journey into the heart of Africa begins here.
           </p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 pt-4 animate-in fade-in slide-in-from-bottom duration-1000 delay-500">
-            <button className="w-full md:w-auto bg-emerald-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-emerald-700 transition-all transform hover:scale-105 shadow-lg">
-              Explore Tours
+            <button 
+              onClick={() => onNavigate('tours')}
+              className="w-full md:w-auto bg-emerald-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-emerald-700 transition-all transform hover:scale-105 shadow-lg"
+            >
+              Book Your Gorilla Trek
             </button>
-            <button className="w-full md:w-auto bg-white text-slate-900 px-8 py-4 rounded-full font-semibold hover:bg-slate-100 transition-all transform hover:scale-105 shadow-lg">
-              Become a Guide
+            <button 
+              onClick={() => onNavigate('guides')}
+              className="w-full md:w-auto bg-white text-slate-900 px-8 py-4 rounded-full font-semibold hover:bg-slate-100 transition-all transform hover:scale-105 shadow-lg"
+            >
+              Explore Our Guides
             </button>
           </div>
         </div>
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer" onClick={() => {
+          document.getElementById('destinations')?.scrollIntoView({ behavior: 'smooth' });
+        }}>
           <span className="text-white text-2xl">↓</span>
         </div>
       </section>
@@ -32,16 +46,20 @@ const Home: React.FC = () => {
       <section id="destinations" className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Popular Destinations</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Discover Rwanda's Wonders</h2>
             <div className="w-20 h-1 bg-emerald-600 mx-auto"></div>
             <p className="text-slate-600 mt-6 max-w-2xl mx-auto">
-              From pristine beaches to mountain peaks, find your next adventure among our most-loved locations around the globe.
+              Home to the endangered mountain gorillas and some of the richest biodiversity in the world. Explore our national treasures.
             </p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {POPULAR_DESTINATIONS.map((dest) => (
-              <div key={dest.id} className="group relative overflow-hidden rounded-2xl h-80 shadow-lg cursor-pointer">
+            {POPULAR_DESTINATIONS.slice(0, 6).map((dest) => (
+              <div 
+                key={dest.id} 
+                onClick={() => onViewDestination(dest.id)} 
+                className="group relative overflow-hidden rounded-2xl h-80 shadow-lg cursor-pointer"
+              >
                 <img 
                   src={dest.image} 
                   alt={dest.name}
@@ -50,7 +68,7 @@ const Home: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 p-6 text-white">
                   <h3 className="text-2xl font-bold">{dest.name}</h3>
-                  <p className="text-emerald-400 font-medium">{dest.tourCount} Tours Available</p>
+                  <p className="text-emerald-400 font-medium">{dest.tourCount} Eco-Tours</p>
                 </div>
               </div>
             ))}
@@ -63,32 +81,24 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
             <div className="p-8 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl">👤</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Trusted local guides</h3>
-              <p className="text-slate-600 text-sm">Vetted professionals with deep local knowledge.</p>
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">🌿</div>
+              <h3 className="text-xl font-bold mb-3">Eco-Conscious</h3>
+              <p className="text-slate-600 text-sm">We strictly follow conservation guidelines to protect our wildlife.</p>
             </div>
             <div className="p-8 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl">💰</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Affordable prices</h3>
-              <p className="text-slate-600 text-sm">Competitive rates with no hidden booking fees.</p>
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">🇷🇼</div>
+              <h3 className="text-xl font-bold mb-3">Local Knowledge</h3>
+              <p className="text-slate-600 text-sm">Every guide is a native Rwandan with passion for their homeland.</p>
             </div>
             <div className="p-8 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl">📅</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Easy booking</h3>
-              <p className="text-slate-600 text-sm">Confirm your spot in just a few simple clicks.</p>
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">🤝</div>
+              <h3 className="text-xl font-bold mb-3">Community Impact</h3>
+              <p className="text-slate-600 text-sm">10% of our revenue supports local conservation projects.</p>
             </div>
             <div className="p-8 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-3xl">🔒</span>
-              </div>
-              <h3 className="text-xl font-bold mb-3">Secure platform</h3>
-              <p className="text-slate-600 text-sm">Your data and payments are always protected.</p>
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">🛡️</div>
+              <h3 className="text-xl font-bold mb-3">Secure Travel</h3>
+              <p className="text-slate-600 text-sm">Safe, seamless, and fully managed travel logistics.</p>
             </div>
           </div>
         </div>
@@ -99,19 +109,22 @@ const Home: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Featured Tours</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Featured Rwandan Tours</h2>
               <div className="w-20 h-1 bg-emerald-600"></div>
               <p className="text-slate-600 mt-6 max-w-xl">
-                Hand-picked adventures with exceptional ratings and unique itineraries.
+                The most authentic and breathtaking activities available in the Land of a Thousand Hills.
               </p>
             </div>
-            <button className="mt-8 md:mt-0 text-emerald-600 font-bold hover:underline flex items-center gap-2">
+            <button 
+              onClick={() => onNavigate('tours')}
+              className="mt-8 md:mt-0 text-emerald-600 font-bold hover:underline flex items-center gap-2"
+            >
               View All Tours <span>→</span>
             </button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {FEATURED_TOURS.map((tour) => (
+            {FEATURED_TOURS.slice(0, 4).map((tour) => (
               <div 
                 key={tour.id} 
                 className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] group cursor-pointer"
@@ -140,7 +153,10 @@ const Home: React.FC = () => {
                       <span className="font-bold text-sm text-slate-800">{tour.rating}</span>
                       <span className="text-slate-400 text-xs">({tour.reviews})</span>
                     </div>
-                    <button className="text-emerald-600 text-sm font-bold border-b-2 border-emerald-600/0 hover:border-emerald-600 transition-all">
+                    <button 
+                      onClick={() => onViewTour(tour.id)}
+                      className="text-emerald-600 text-sm font-bold border-b-2 border-emerald-600/0 hover:border-emerald-600 transition-all"
+                    >
                       View Details
                     </button>
                   </div>
@@ -155,7 +171,7 @@ const Home: React.FC = () => {
       <section className="py-24 bg-slate-900 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-             <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Travelers Say</h2>
+             <h2 className="text-3xl md:text-4xl font-bold mb-4">Traveler Stories</h2>
              <div className="w-20 h-1 bg-emerald-600 mx-auto"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -184,16 +200,22 @@ const Home: React.FC = () => {
           </div>
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Ready to start your next adventure?</h2>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Experience the Magic of Rwanda</h2>
           <p className="text-emerald-50 text-lg mb-10 max-w-2xl mx-auto">
-            Join thousands of happy travelers and discover the world with experts who know it best.
+            Ready to explore the Land of a Thousand Hills? Join us for an ethical, sustainable, and unforgettable adventure.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-white text-emerald-700 px-10 py-4 rounded-full font-bold shadow-xl hover:bg-slate-100 transition-all transform hover:scale-105">
-              Explore All Tours
+            <button 
+              onClick={() => onNavigate('tours')}
+              className="bg-white text-emerald-700 px-10 py-4 rounded-full font-bold shadow-xl hover:bg-slate-100 transition-all transform hover:scale-105"
+            >
+              See All Tours
             </button>
-            <button className="bg-emerald-800 text-white border border-emerald-400 px-10 py-4 rounded-full font-bold shadow-xl hover:bg-emerald-900 transition-all transform hover:scale-105">
-              Get in Touch
+            <button 
+              onClick={() => onNavigate('contact')}
+              className="bg-emerald-800 text-white border border-emerald-400 px-10 py-4 rounded-full font-bold shadow-xl hover:bg-emerald-900 transition-all transform hover:scale-105"
+            >
+              Contact Us
             </button>
           </div>
         </div>
